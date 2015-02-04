@@ -1,9 +1,10 @@
 package ro.scene.hq.holidays;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class HolidayRequest {
+
+    private String id;
 
     private Identity employee;
 
@@ -13,20 +14,45 @@ public class HolidayRequest {
 
     private int days;
 
+    private HolidayRequestState state = HolidayRequestState.NEW;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public void submit(DeliveryService deliveryService) {
+        if (HolidayRequestState.NEW != state)
+            throw new IllegalStateException("Can submit only new requests.");
+
         Email email = EmailTemplate.createSubmitEmail(employee, manager, fromDate, toDate());
         email.send(deliveryService);
+
+        changeStateTo(HolidayRequestState.REQUEST_SENT);
     }
 
     public void accept(DeliveryService deliveryService) {
+        if (HolidayRequestState.REQUEST_SENT != state)
+            throw new IllegalStateException("Can accept only requests that have been sent and not given a resolution for.");
+
         Email email = EmailTemplate.createAcceptEmail(manager, employee, fromDate, toDate());
         email.ccTo(SystemConfiguration.HR_DEPARTMENT);
         email.send(deliveryService);
+
+        changeStateTo(HolidayRequestState.APPROVED);
     }
 
     public void reject(DeliveryService deliveryService) {
+        if (HolidayRequestState.REQUEST_SENT != state)
+            throw new IllegalStateException("Can reject only requests that have been sent and not given a resolution for.");
+
         Email email = EmailTemplate.createRejectEmail(manager, employee, fromDate, toDate());
         email.send(deliveryService);
+
+        changeStateTo(HolidayRequestState.REJECTED);
     }
 
     public HolidayRequest fromEmployee(Identity employee) {
@@ -51,5 +77,10 @@ public class HolidayRequest {
 
     private LocalDate toDate() {
         return LocalDate.from(fromDate).plusDays(days);
+    }
+
+    private void changeStateTo(HolidayRequestState state) {
+        this.state = state;
+        Holidays.save(this);
     }
 }
