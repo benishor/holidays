@@ -83,7 +83,7 @@ public class HolidayRequest implements Serializable {
 
     private void changeStateTo(HolidayRequestState state) {
         this.state = state;
-        Holidays.save(this);
+        ServiceLocator.getHolidayRepository().save(this);
     }
 
     public void print() {
