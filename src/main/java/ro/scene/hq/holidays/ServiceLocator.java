@@ -2,16 +2,16 @@ package ro.scene.hq.holidays;
 
 public class ServiceLocator {
 
-    private static HolidayRepository holidayRepository;
+    private static HolidayRequestRepository holidayRequestRepository;
 
     private static DeliveryService deliveryService;
 
-    public static HolidayRepository getHolidayRepository() {
-        return holidayRepository;
+    public static HolidayRequestRepository getHolidayRequestRepository() {
+        return holidayRequestRepository;
     }
 
-    public static void setHolidayRepository(HolidayRepository holidayRepository) {
-        ServiceLocator.holidayRepository = holidayRepository;
+    public static void setHolidayRequestRepository(HolidayRequestRepository holidayRequestRepository) {
+        ServiceLocator.holidayRequestRepository = holidayRequestRepository;
     }
 
     public static DeliveryService getDeliveryService() {

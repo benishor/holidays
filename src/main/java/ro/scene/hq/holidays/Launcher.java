@@ -7,16 +7,16 @@ public class Launcher {
     public static void main(String... args) {
         initializeServices();
 
-        ServiceLocator.getHolidayRepository().printAll();
+        ServiceLocator.getHolidayRequestRepository().printAll();
 
 //        approveRequest("67fd0505-a4bb-4244-a945-0b7b1f6abaf1");
 //
-//        ServiceLocator.getHolidayRepository().printAll();
+//        ServiceLocator.getHolidayRequestRepository().printAll();
     }
 
     private static void initializeServices() {
-        HolidayRepository holidayRepository = new HolidayRepository("requests.data");
-        ServiceLocator.setHolidayRepository(holidayRepository);
+        HolidayRequestRepository holidayRequestRepository = new HolidayRequestRepository("requests.data");
+        ServiceLocator.setHolidayRequestRepository(holidayRequestRepository);
 
         DeliveryService deliveryService = new DeliveryServiceConsole();
         ServiceLocator.setDeliveryService(deliveryService);

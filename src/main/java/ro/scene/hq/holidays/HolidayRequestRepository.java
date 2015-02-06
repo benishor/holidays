@@ -7,13 +7,13 @@ import java.util.Map;
 /**
  * @author Adrian Scripca
  */
-public class HolidayRepository {
+public class HolidayRequestRepository {
 
-    private Map<String, HolidayRequest> requests = new LinkedHashMap<>();
+    private final Map<String, HolidayRequest> requests = new LinkedHashMap<>();
 
     private final String filename;
 
-    public HolidayRepository(String filename) {
+    public HolidayRequestRepository(String filename) {
         this.filename = filename;
         loadFromDisk();
     }
@@ -40,12 +40,15 @@ public class HolidayRepository {
             request.print();
     }
 
+    @SuppressWarnings("unchecked")
     private void loadFromDisk() {
         try (
                 FileInputStream fis = new FileInputStream(filename);
                 ObjectInputStream ois = new ObjectInputStream(fis);
         ) {
-            requests = (Map<String, HolidayRequest>) ois.readObject();
+            requests.clear();
+            requests.putAll((Map<String, HolidayRequest>) ois.readObject());
+
             ois.close();
             fis.close();
 
