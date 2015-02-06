@@ -4,17 +4,8 @@ import java.time.LocalDate;
 
 public class Launcher {
 
-    private static DeliveryService deliveryService;
-
     public static void main(String... args) {
         initializeServices();
-
-//        HolidayRequest request = new HolidayRequest()
-//                .fromEmployee(new Identity("benishor@gmail.com", "Adrian Scripca"))
-//                .toManager(new Identity("boss@iquestgroup.com", "Dilbert Boss"))
-//                .startingOn(LocalDate.of(2014, 11, 24))
-//                .lastingForDays(5);
-//        request.submit(getDeliveryService());
 
         ServiceLocator.getHolidayRepository().printAll();
 
@@ -31,18 +22,20 @@ public class Launcher {
         ServiceLocator.setDeliveryService(deliveryService);
     }
 
+    private static void addRequest() {
+        HolidayRequest request = new HolidayRequest()
+                .fromEmployee(new Identity("benishor@gmail.com", "Adrian Scripca"))
+                .toManager(new Identity("boss@iquestgroup.com", "Dilbert Boss"))
+                .startingOn(LocalDate.of(2014, 11, 24))
+                .lastingForDays(5);
+        request.submit(ServiceLocator.getDeliveryService());
+    }
+
     public static void approveRequest(String id) {
         HolidayRequest request = Holidays.getById(id);
         if (request == null)
             throw new IllegalStateException("Cannot find request with id " + id);
 
-        request.accept(getDeliveryService());
-    }
-
-    private static DeliveryService getDeliveryService() {
-        if (deliveryService == null) {
-            deliveryService = new DeliveryServiceConsole();
-        }
-        return deliveryService;
+        request.accept(ServiceLocator.getDeliveryService());
     }
 }
