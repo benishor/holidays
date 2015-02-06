@@ -1,7 +1,5 @@
 package ro.scene.hq.holidays;
 
-import ro.scene.hq.holidays.DeliveryService;
-
 import java.util.Collection;
 
 public class DeliveryServiceConsole implements DeliveryService {
