@@ -1,8 +1,10 @@
 package ro.scene.hq.holidays;
 
+import java.io.PrintStream;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class HolidayRequest {
+public class HolidayRequest implements Serializable {
 
     private String id;
 
@@ -82,5 +84,17 @@ public class HolidayRequest {
     private void changeStateTo(HolidayRequestState state) {
         this.state = state;
         Holidays.save(this);
+    }
+
+    public void print() {
+        PrintStream out = System.out;
+        out.println("Request{ ");
+        out.println("\tid: " + id);
+        out.println("\tstate: " + state.name());
+        out.println("\tfrom: " + fromDate);
+        out.println("\tto: " + toDate());
+        out.println("\temployee: " + employee.email);
+        out.println("\tmanager: " + manager.email);
+        out.println("}");
     }
 }

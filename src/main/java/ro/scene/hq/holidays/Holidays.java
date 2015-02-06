@@ -5,20 +5,11 @@ package ro.scene.hq.holidays;
  */
 public class Holidays {
 
-    private static HolidayRepository repository;
-
-    private static HolidayRepository getRepository() {
-        if (repository == null) {
-            repository = new HolidayRepository();
-        }
-        return repository;
-    }
-
     public static void save(HolidayRequest request) {
-        .save(request);
+        ServiceLocator.getHolidayRepository().save(request);
     }
 
     public static HolidayRequest getById(String id) {
-        return repository.getById(id);
+        return ServiceLocator.getHolidayRepository().getById(id);
     }
 }
