@@ -1,12 +1,11 @@
-package ro.scene.hq.holidays;
+package ro.scene.hq.holidays.repository;
+
+import ro.scene.hq.holidays.HolidayRequest;
 
 import java.io.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-/**
- * @author Adrian Scripca
- */
 public class HolidayRequestRepository {
 
     private final Map<String, HolidayRequest> requests = new LinkedHashMap<>();

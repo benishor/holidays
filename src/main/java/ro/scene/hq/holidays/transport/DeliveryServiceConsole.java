@@ -1,4 +1,6 @@
-package ro.scene.hq.holidays;
+package ro.scene.hq.holidays.transport;
+
+import ro.scene.hq.holidays.DeliveryService;
 
 import java.util.Collection;
 

@@ -6,6 +6,8 @@ import java.time.LocalDate;
 
 public class HolidayRequest implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     private String id;
 
     private Identity employee;
@@ -26,33 +28,33 @@ public class HolidayRequest implements Serializable {
         this.id = id;
     }
 
-    public void submit(DeliveryService deliveryService) {
+    public void submit() {
         if (HolidayRequestState.NEW != state)
             throw new IllegalStateException("Can submit only new requests.");
 
         Email email = EmailTemplate.createSubmitEmail(employee, manager, fromDate, toDate());
-        email.send(deliveryService);
+        email.send(ServiceLocator.getDeliveryService());
 
         changeStateTo(HolidayRequestState.REQUEST_SENT);
     }
 
-    public void accept(DeliveryService deliveryService) {
+    public void accept() {
         if (HolidayRequestState.REQUEST_SENT != state)
             throw new IllegalStateException("Can accept only requests that have been sent and not given a resolution for.");
 
         Email email = EmailTemplate.createAcceptEmail(manager, employee, fromDate, toDate());
         email.ccTo(SystemConfiguration.HR_DEPARTMENT);
-        email.send(deliveryService);
+        email.send(ServiceLocator.getDeliveryService());
 
         changeStateTo(HolidayRequestState.APPROVED);
     }
 
-    public void reject(DeliveryService deliveryService) {
+    public void reject() {
         if (HolidayRequestState.REQUEST_SENT != state)
             throw new IllegalStateException("Can reject only requests that have been sent and not given a resolution for.");
 
         Email email = EmailTemplate.createRejectEmail(manager, employee, fromDate, toDate());
-        email.send(deliveryService);
+        email.send(ServiceLocator.getDeliveryService());
 
         changeStateTo(HolidayRequestState.REJECTED);
     }
