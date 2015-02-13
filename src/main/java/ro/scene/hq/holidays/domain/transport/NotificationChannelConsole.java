@@ -1,8 +1,8 @@
-package ro.scene.hq.holidays.transport;
+package ro.scene.hq.holidays.domain.transport;
 
-import ro.scene.hq.holidays.Identity;
-import ro.scene.hq.holidays.Message;
-import ro.scene.hq.holidays.NotificationChannel;
+import ro.scene.hq.holidays.domain.Identity;
+import ro.scene.hq.holidays.domain.Message;
+import ro.scene.hq.holidays.domain.NotificationChannel;
 
 import java.io.PrintStream;
 

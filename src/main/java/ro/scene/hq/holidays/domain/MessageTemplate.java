@@ -1,4 +1,4 @@
-package ro.scene.hq.holidays;
+package ro.scene.hq.holidays.domain;
 
 import java.text.MessageFormat;
 import java.time.LocalDate;

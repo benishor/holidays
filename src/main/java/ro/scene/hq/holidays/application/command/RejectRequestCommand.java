@@ -1,15 +1,15 @@
-package ro.scene.hq.holidays.command;
+package ro.scene.hq.holidays.application.command;
 
-import ro.scene.hq.holidays.Command;
-import ro.scene.hq.holidays.HolidayRequest;
+import ro.scene.hq.holidays.application.Command;
+import ro.scene.hq.holidays.domain.HolidayRequest;
 
 import java.util.List;
 
-public class ApproveRequestCommand implements Command {
+public class RejectRequestCommand implements Command {
 
     @Override
     public String getShortName() {
-        return "approve-request";
+        return "reject-request";
     }
 
     @Override
@@ -28,6 +28,6 @@ public class ApproveRequestCommand implements Command {
         if (request == null)
             throw new IllegalStateException("Cannot find request with id " + requestId);
 
-        request.accept();
+        request.reject();
     }
 }

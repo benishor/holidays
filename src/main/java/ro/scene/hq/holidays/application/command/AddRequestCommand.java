@@ -1,6 +1,8 @@
-package ro.scene.hq.holidays.command;
+package ro.scene.hq.holidays.application.command;
 
-import ro.scene.hq.holidays.*;
+import ro.scene.hq.holidays.application.Command;
+import ro.scene.hq.holidays.domain.HolidayRequest;
+import ro.scene.hq.holidays.domain.Identity;
 
 import java.time.LocalDate;
 import java.util.List;

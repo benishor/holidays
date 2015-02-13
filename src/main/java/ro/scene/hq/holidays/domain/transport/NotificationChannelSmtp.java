@@ -1,8 +1,9 @@
-package ro.scene.hq.holidays.transport;
+package ro.scene.hq.holidays.domain.transport;
 
-import ro.scene.hq.holidays.NotificationChannel;
+import ro.scene.hq.holidays.domain.NotificationChannel;
 
 import javax.mail.*;
+import javax.mail.Message;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -35,7 +36,7 @@ public class NotificationChannelSmtp implements NotificationChannel {
     }
 
     @Override
-    public void send(ro.scene.hq.holidays.Message msg) {
+    public void send(ro.scene.hq.holidays.domain.Message msg) {
         try {
             Message email = new MimeMessage(smtpSession);
             email.setSubject(msg.subject);

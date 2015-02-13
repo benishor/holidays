@@ -1,7 +1,7 @@
-package ro.scene.hq.holidays;
+package ro.scene.hq.holidays.domain;
 
-import ro.scene.hq.holidays.repository.HolidayRequestRepository;
-import ro.scene.hq.holidays.repository.IdentityRepository;
+import ro.scene.hq.holidays.domain.repository.HolidayRequestRepository;
+import ro.scene.hq.holidays.domain.repository.IdentityRepository;
 
 public class ServiceLocator {
 

@@ -1,6 +1,6 @@
-package ro.scene.hq.holidays.repository;
+package ro.scene.hq.holidays.domain.repository;
 
-import ro.scene.hq.holidays.HolidayRequest;
+import ro.scene.hq.holidays.domain.HolidayRequest;
 
 import java.io.*;
 import java.util.LinkedHashMap;

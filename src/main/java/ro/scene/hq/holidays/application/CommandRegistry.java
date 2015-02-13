@@ -1,4 +1,4 @@
-package ro.scene.hq.holidays;
+package ro.scene.hq.holidays.application;
 
 import java.util.LinkedHashMap;
 import java.util.List;

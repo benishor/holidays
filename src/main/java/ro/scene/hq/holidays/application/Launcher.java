@@ -1,8 +1,11 @@
-import ro.scene.hq.holidays.*;
-import ro.scene.hq.holidays.command.*;
-import ro.scene.hq.holidays.repository.HolidayRequestRepository;
-import ro.scene.hq.holidays.repository.IdentityRepository;
-import ro.scene.hq.holidays.transport.NotificationChannelConsole;
+package ro.scene.hq.holidays.application;
+
+import ro.scene.hq.holidays.application.command.*;
+import ro.scene.hq.holidays.domain.NotificationChannel;
+import ro.scene.hq.holidays.domain.ServiceLocator;
+import ro.scene.hq.holidays.domain.repository.HolidayRequestRepository;
+import ro.scene.hq.holidays.domain.repository.IdentityRepository;
+import ro.scene.hq.holidays.domain.transport.NotificationChannelConsole;
 
 import java.util.Arrays;
 
