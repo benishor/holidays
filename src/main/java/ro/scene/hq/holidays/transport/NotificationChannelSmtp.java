@@ -1,15 +1,18 @@
 package ro.scene.hq.holidays.transport;
 
-import ro.scene.hq.holidays.DeliveryService;
+import ro.scene.hq.holidays.NotificationChannel;
 
 import javax.mail.*;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
-public class DeliveryServiceSmtp implements DeliveryService {
+public class NotificationChannelSmtp implements NotificationChannel {
 
     private static final String SMTP_USERNAME = "benishor.github.tests@gmail.com";
 
@@ -17,7 +20,7 @@ public class DeliveryServiceSmtp implements DeliveryService {
 
     private Session smtpSession;
 
-    public DeliveryServiceSmtp() {
+    public NotificationChannelSmtp() {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
@@ -32,19 +35,23 @@ public class DeliveryServiceSmtp implements DeliveryService {
     }
 
     @Override
-    public void deliver(String from, String to, String subject, String body, Collection<String> cc) {
+    public void send(ro.scene.hq.holidays.Message msg) {
         try {
-            Message message = new MimeMessage(smtpSession);
-            message.setFrom(new InternetAddress(from));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
-            message.setSubject(subject);
-            message.setText(body);
+            Message email = new MimeMessage(smtpSession);
+            email.setSubject(msg.subject);
+            email.setText(msg.body);
 
-            if (!cc.isEmpty()) {
-                message.addRecipients(Message.RecipientType.CC, toInternetAddresses(cc));
-            }
+            email.setFrom(new InternetAddress(msg.sender.email));
+            email.setRecipients(Message.RecipientType.TO, InternetAddress.parse(msg.recipients.get(0).email));
 
-            Transport.send(message);
+            List<String> ccEmails = msg.recipients.subList(1, msg.recipients.size())
+                    .stream()
+                    .map(identity -> identity.email)
+                    .collect(Collectors.toCollection(LinkedList::new));
+
+            email.addRecipients(Message.RecipientType.CC, toInternetAddresses(ccEmails));
+
+            Transport.send(email);
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

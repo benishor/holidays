@@ -18,15 +18,12 @@ public final class CommandRegistry {
     }
 
     public static void execute(List<String> args) {
-        if (args.isEmpty()) {
-            showUsage();
-            throw new IllegalStateException("No action provided");
-        }
-
-        for (Command command : commands.values()) {
-            if (command.getShortName().equals(args.get(0))) {
-                command.execute(args);
-                return;
+        if (!args.isEmpty()) {
+            for (Command command : commands.values()) {
+                if (command.getShortName().equals(args.get(0))) {
+                    command.execute(args);
+                    return;
+                }
             }
         }
 

@@ -2,7 +2,6 @@ package ro.scene.hq.holidays.command;
 
 import ro.scene.hq.holidays.Command;
 import ro.scene.hq.holidays.HolidayRequest;
-import ro.scene.hq.holidays.Holidays;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class ApproveRequestCommand implements Command {
         }
 
         String requestId = args.get(1);
-        HolidayRequest request = Holidays.getById(requestId);
+        HolidayRequest request = HolidayRequest.fromId(requestId);
         if (request == null)
             throw new IllegalStateException("Cannot find request with id " + requestId);
 

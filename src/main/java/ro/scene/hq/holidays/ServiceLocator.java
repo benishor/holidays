@@ -9,7 +9,7 @@ public class ServiceLocator {
 
     private static IdentityRepository identityRepository;
 
-    private static DeliveryService deliveryService;
+    private static NotificationChannel notificationChannel;
 
     public static HolidayRequestRepository getHolidayRequestRepository() {
         return holidayRequestRepository;
@@ -27,11 +27,11 @@ public class ServiceLocator {
         ServiceLocator.identityRepository = identityRepository;
     }
 
-    public static DeliveryService getDeliveryService() {
-        return deliveryService;
+    public static NotificationChannel getNotificationChannel() {
+        return notificationChannel;
     }
 
-    public static void setDeliveryService(DeliveryService deliveryService) {
-        ServiceLocator.deliveryService = deliveryService;
+    public static void setNotificationChannel(NotificationChannel notificationChannel) {
+        ServiceLocator.notificationChannel = notificationChannel;
     }
 }

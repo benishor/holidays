@@ -1,24 +1,21 @@
 package ro.scene.hq.holidays;
 
-import java.io.PrintStream;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class HolidayRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private String id;
-
     private Identity employee;
-
     private Identity manager;
-
     private LocalDate fromDate;
-
     private int days;
+    private State state = State.NEW;
 
-    private HolidayRequestState state = HolidayRequestState.NEW;
+    public static HolidayRequest fromId(String id) {
+        return ServiceLocator.getHolidayRequestRepository().getById(id);
+    }
 
     public String getId() {
         return id;
@@ -29,34 +26,34 @@ public class HolidayRequest implements Serializable {
     }
 
     public void submit() {
-        if (HolidayRequestState.NEW != state)
+        if (State.NEW != state)
             throw new IllegalStateException("Can submit only new requests.");
 
-        Email email = EmailTemplate.createSubmitEmail(employee, manager, fromDate, toDate());
-        email.send(ServiceLocator.getDeliveryService());
+        Message message = MessageTemplate.createSubmitMessage(employee, manager, fromDate, toDate());
+        message.send(ServiceLocator.getNotificationChannel());
 
-        changeStateTo(HolidayRequestState.REQUEST_SENT);
+        changeStateTo(State.REQUEST_SENT);
     }
 
     public void accept() {
-        if (HolidayRequestState.REQUEST_SENT != state)
+        if (State.REQUEST_SENT != state)
             throw new IllegalStateException("Can accept only requests that have been sent and not given a resolution for.");
 
-        Email email = EmailTemplate.createAcceptEmail(manager, employee, fromDate, toDate());
-        email.ccTo(SystemConfiguration.HR_DEPARTMENT);
-        email.send(ServiceLocator.getDeliveryService());
+        Message message = MessageTemplate.createAcceptMessage(manager, employee, fromDate, toDate());
+        message.addRecipient(SystemConfiguration.HR_DEPARTMENT);
+        message.send(ServiceLocator.getNotificationChannel());
 
-        changeStateTo(HolidayRequestState.APPROVED);
+        changeStateTo(State.APPROVED);
     }
 
     public void reject() {
-        if (HolidayRequestState.REQUEST_SENT != state)
+        if (State.REQUEST_SENT != state)
             throw new IllegalStateException("Can reject only requests that have been sent and not given a resolution for.");
 
-        Email email = EmailTemplate.createRejectEmail(manager, employee, fromDate, toDate());
-        email.send(ServiceLocator.getDeliveryService());
+        Message message = MessageTemplate.createRejectMessage(manager, employee, fromDate, toDate());
+        message.send(ServiceLocator.getNotificationChannel());
 
-        changeStateTo(HolidayRequestState.REJECTED);
+        changeStateTo(State.REJECTED);
     }
 
     public HolidayRequest fromEmployee(Identity employee) {
@@ -83,20 +80,27 @@ public class HolidayRequest implements Serializable {
         return LocalDate.from(fromDate).plusDays(days);
     }
 
-    private void changeStateTo(HolidayRequestState state) {
+    private void changeStateTo(State state) {
         this.state = state;
         ServiceLocator.getHolidayRequestRepository().save(this);
     }
 
-    public void print() {
-        PrintStream out = System.out;
-        out.println("Request{ ");
-        out.println("\tid: " + id);
-        out.println("\tstate: " + state.name());
-        out.println("\tfrom: " + fromDate);
-        out.println("\tto: " + toDate());
-        out.println("\temployee: " + employee.email);
-        out.println("\tmanager: " + manager.email);
-        out.println("}");
+    @Override
+    public String toString() {
+        return "HolidayRequest{" +
+                "id='" + id + '\'' +
+                ", employee=" + employee +
+                ", manager=" + manager +
+                ", fromDate=" + fromDate +
+                ", days=" + days +
+                ", state=" + state +
+                '}';
+    }
+
+    public enum State {
+        NEW,
+        REQUEST_SENT,
+        APPROVED,
+        REJECTED
     }
 }

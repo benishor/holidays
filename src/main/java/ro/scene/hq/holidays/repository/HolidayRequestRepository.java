@@ -35,8 +35,7 @@ public class HolidayRequestRepository {
     }
 
     public void printAll() {
-        for (HolidayRequest request : requests.values())
-            request.print();
+        requests.values().forEach(System.out::println);
     }
 
     @SuppressWarnings("unchecked")

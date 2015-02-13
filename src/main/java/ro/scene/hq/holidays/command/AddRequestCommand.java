@@ -22,8 +22,8 @@ public final class AddRequestCommand implements Command {
             throw new IllegalArgumentException("Wrong number of arguments for executing action " + getShortName());
         }
 
-        Identity employee = Identities.getByEmail(args.get(1));
-        Identity manager = Identities.getByEmail(args.get(2));
+        Identity employee = Identity.fromEmail(args.get(1));
+        Identity manager = Identity.fromEmail(args.get(2));
         LocalDate startDate = LocalDate.parse(args.get(3));
         int days = Integer.valueOf(args.get(4));
 

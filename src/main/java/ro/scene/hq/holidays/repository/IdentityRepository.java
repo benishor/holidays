@@ -78,7 +78,6 @@ public class IdentityRepository {
     }
 
     public void printAll() {
-        for (Identity identity : identities.values())
-            identity.print();
+        identities.values().forEach(System.out::println);
     }
 }

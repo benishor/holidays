@@ -1,7 +1,6 @@
 package ro.scene.hq.holidays;
 
 import java.io.Serializable;
-import java.text.MessageFormat;
 
 public class Identity implements Serializable {
 
@@ -18,6 +17,10 @@ public class Identity implements Serializable {
         this.name = name;
     }
 
+    public static Identity fromEmail(String email) {
+        return ServiceLocator.getIdentityRepository().getByEmail(email);
+    }
+
     public String getId() {
         return id;
     }
@@ -30,7 +33,12 @@ public class Identity implements Serializable {
         ServiceLocator.getIdentityRepository().save(this);
     }
 
-    public void print() {
-        System.out.println(MessageFormat.format("{0} \t{1}\t{2}", id, email, name));
+    @Override
+    public String toString() {
+        return "Identity{" +
+                "id='" + id + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

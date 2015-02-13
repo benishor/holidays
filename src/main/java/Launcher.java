@@ -2,7 +2,7 @@ import ro.scene.hq.holidays.*;
 import ro.scene.hq.holidays.command.*;
 import ro.scene.hq.holidays.repository.HolidayRequestRepository;
 import ro.scene.hq.holidays.repository.IdentityRepository;
-import ro.scene.hq.holidays.transport.DeliveryServiceConsole;
+import ro.scene.hq.holidays.transport.NotificationChannelConsole;
 
 import java.util.Arrays;
 
@@ -36,7 +36,7 @@ public class Launcher {
         HolidayRequestRepository holidayRequestRepository = new HolidayRequestRepository("requests.data");
         ServiceLocator.setHolidayRequestRepository(holidayRequestRepository);
 
-        DeliveryService deliveryService = new DeliveryServiceConsole();
-        ServiceLocator.setDeliveryService(deliveryService);
+        NotificationChannel notificationChannel = new NotificationChannelConsole();
+        ServiceLocator.setNotificationChannel(notificationChannel);
     }
 }
